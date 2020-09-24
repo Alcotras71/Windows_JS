@@ -1,9 +1,12 @@
+import calcScroll from './calcScroll';
+
 const modals = () => {
 	function bindModal(triggerSelector, modalSelector, closeSelector, closeClickOverlay = true) {
 		const trigger = document.querySelectorAll(triggerSelector),
 			modal = document.querySelector(modalSelector),
 			close = document.querySelector(closeSelector),
-			windows = document.querySelectorAll('[data-modal]');
+			windows = document.querySelectorAll('[data-modal]'),
+			scroll = calcScroll();
 
 		trigger.forEach(item => {
 			item.addEventListener('click', (e) => {
@@ -16,16 +19,18 @@ const modals = () => {
 				});
 
 				modal.style.display = "block";
+				document.body.style.marginRight = `${scroll}px`;
 				document.body.classList.add('modal-open');
 			});
 		});
 
 		close.addEventListener('click', () => {
-			modal.style.display = "none";
-
 			windows.forEach(item => {
 				item.style.display = 'none';
 			});
+		
+			modal.style.display = "none";
+			document.body.style.marginRight = '0px';
 			document.body.classList.remove('modal-open');
 		});
 
@@ -36,12 +41,15 @@ const modals = () => {
 				windows.forEach(item => {
 					item.style.display = 'none';
 				});
+
+				document.body.style.marginRight = '0px';
 				document.body.classList.remove('modal-open');
 			}
 
 			if (e.target.getAttribute('data-close') == "") {
 				setTimeout(() => {
 					modal.style.display = "none";
+					document.body.style.marginRight = '0px';
 					document.body.classList.remove('modal-open');
 				}, 1000);
 			}
