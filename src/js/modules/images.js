@@ -1,10 +1,9 @@
-import calcScroll from './calcScroll';
+import { openModal, closeModal } from './modals';
 
 const images = () => {
 	const imgPopup = document.createElement('div'),
 			workSection = document.querySelector('.works'),
-			bigImage = document.createElement('img'),
-			scroll = calcScroll();
+			bigImage = document.createElement('img');
 
 	imgPopup.classList.add('popup');
 	workSection.appendChild(imgPopup);
@@ -23,17 +22,14 @@ const images = () => {
 		let target = e.target;
 
 		if ( target && target.classList.contains('preview')) {
-			imgPopup.style.display = 'flex';
-			document.body.classList.add('modal-open');
-			document.body.style.marginRight = `${scroll}px`;
+			openModal(imgPopup, 'flex')
+			imgPopup.classList.add('animated','fadeIn');
 			const path = target.parentNode.getAttribute('href');
 			bigImage.setAttribute('src', path);
 		}
 
 		if (target && target.matches('div.popup')) {
-			imgPopup.style.display = 'none';
-			document.body.style.marginRight = '0px';
-			document.body.classList.remove('modal-open');
+			closeModal(imgPopup);
 		}
 	});
 };
